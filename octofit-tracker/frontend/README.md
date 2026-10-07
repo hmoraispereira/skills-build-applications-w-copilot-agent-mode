@@ -1,16 +1,34 @@
-# React + Vite
+# OctoFit Tracker frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+The React presentation tier uses Vite, React Router, and Bootstrap. Its API client
+reads `VITE_CODESPACE_NAME` and requests the backend at
+`https://<codespace-name>-8000.app.github.dev`. Vite automatically passes the
+Codespaces `CODESPACE_NAME` value into the frontend configuration. Outside
+Codespaces, the API client falls back to `http://localhost:8000`.
 
-Currently, two official plugins are available:
+If Vite is not running inside Codespaces but the API is hosted in a Codespace,
+create `octofit-tracker/frontend/.env.local` with:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```dotenv
+VITE_CODESPACE_NAME=your-codespace-name
+```
 
-## React Compiler
+Restart Vite after changing environment values. To optionally use a custom API
+origin, set `VITE_API_BASE_URL`; this takes precedence over the Codespaces and
+localhost defaults.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+From the repository root:
 
-## Expanding the Oxlint configuration
+```bash
+npm run dev --prefix octofit-tracker/frontend
+npm run build --prefix octofit-tracker/frontend
+npm run lint --prefix octofit-tracker/frontend
+npm test --prefix octofit-tracker/frontend
+npm test --prefix octofit-tracker/backend
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Resource views accept plain array responses as well as paginated responses with
+an array in `results`, `data`, or `items`. The frontend tests cover response
+normalization and rendered API resource states. Backend integration tests require
+MongoDB on `localhost:27017` and use a temporary `octofit_test_<process-id>`
+database that is removed when the tests finish.
