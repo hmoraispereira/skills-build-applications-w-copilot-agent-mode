@@ -1,13 +1,15 @@
 # OctoFit Tracker frontend
 
-The React presentation tier uses Vite, React Router, and Bootstrap. Its API client
-reads `VITE_CODESPACE_NAME` and requests the backend at
-`https://<codespace-name>-8000.app.github.dev`. Vite automatically passes the
-Codespaces `CODESPACE_NAME` value into the frontend configuration. Outside
-Codespaces, the API client falls back to `http://localhost:8000`.
+The React presentation tier uses Vite, React Router, and Bootstrap. When the API
+is hosted in a Codespace, define `VITE_CODESPACE_NAME` with that Codespace's
+name so the client can request
+`https://<codespace-name>-8000.app.github.dev`. You can set it in
+`octofit-tracker/frontend/.env.local`, or Vite automatically uses the
+Codespaces `CODESPACE_NAME` value. If neither value is set, the API client
+safely falls back to `http://localhost:8000`.
 
-If Vite is not running inside Codespaces but the API is hosted in a Codespace,
-create `octofit-tracker/frontend/.env.local` with:
+If the API is hosted in a Codespace and Vite is not running inside that same
+Codespace, create `octofit-tracker/frontend/.env.local` with:
 
 ```dotenv
 VITE_CODESPACE_NAME=your-codespace-name
